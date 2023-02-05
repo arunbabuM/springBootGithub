@@ -65,6 +65,11 @@ public class controller {
     public String detailsview(){
         return "crud";
     }
+
+    @GetMapping("/addProduct")
+    public String addProductView(){
+        return "addProduct";
+    }
     // @PostMapping(value = "/insertregister")
     // public String register (@RequestBody String data)
     // {
@@ -147,11 +152,13 @@ public class controller {
             
         JSONObject json = new JSONObject(data);
         String emailValue = json.getString("email");
+        httpSession.setAttribute("email", emailValue);
         System.out.println("Json>>>>>"+emailValue);
-        int id = dao.resetPassword(data);
+        int id = dao.sendOtp(data);
         if(id != 0)
         { 
-            System.out.println("id>>"+id);     
+             
+            System.out.println("id>>"+id);              
         int otp = (int) Math.floor(100000 + Math.random() * 900000);
         System.out.println("otp>>>"+otp);
         httpSession.setAttribute("otp", otp);
@@ -163,8 +170,42 @@ public class controller {
         System.out.println("null>>");
          return "/login";
         }
+    
+        
+
+    
+    @PostMapping(value = "/resetPassword")
+    @ResponseBody
+    public ResponseEntity<?> resetPassword(@RequestBody String data)
+    {
+        System.out.println("Controler email");
+        JSONObject json = new JSONObject(data);
+        String f_token = json.getString("f_token");
+        String password = json.getString("password");
+        System.out.println("f_token>>>>>>>"+ f_token +"password>>>>>>>"+password );
+        
+        String email= (String) httpSession.getAttribute("email");        
+        System.out.println("email>>>"+email);
+        
+        if (email != "")
+        {
+            int otpFromSession = (int)httpSession.getAttribute("otp");  
+            if(Integer.parseInt(f_token)==(otpFromSession)){
+                dao.resetEmailPassword(data);
+            return ResponseEntity.ok("Password reset successfully");
+            }
+            
+        }
+              
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Reset Error");
     }
         
+    
+}
+
+
+
+    
  
 
 

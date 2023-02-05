@@ -40,8 +40,12 @@
       document.querySelector('#submit').addEventListener('click',function(e){
         e.preventDefault();
         console.log("Clicked Register")
-        let username = document.querySelector("#username").value;
+        let username = document.querySelector("#username").value;       
         let email = document.querySelector("#email").value;
+        if(email=="")
+        {
+          alert("email Error");
+        }
         let password = document.querySelector("#password").value;
 
         let obj ={
@@ -67,7 +71,7 @@
                     },
                     error: function (error) {
 						        console.log("Error>>>>>>>>");
-                    alert("Something went wrong");
+                    alert(error.responseText);
                     }
 
                 })

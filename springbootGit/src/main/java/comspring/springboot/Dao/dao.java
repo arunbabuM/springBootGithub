@@ -50,7 +50,7 @@ public class dao {
         }       
 
 
-    public int resetPassword(String data) {
+    public int sendOtp(String data) {
         System.out.println("Dao>>>>>"+data);
         
         JSONObject json = new JSONObject(data);
@@ -71,5 +71,17 @@ public class dao {
         }
         return 0;
 
+    }
+
+    
+    public int resetEmailPassword(String data){               
+            
+        String email= (String) httpSession.getAttribute("email"); 
+        JSONObject json = new JSONObject(data);
+        String password = json.getString("password");
+        System.out.println("ppaswprd>"+password);
+        System.out.println("demail>"+email);                 
+            String sql = "update users set password =? where email=?";            
+            return jdbcTemplate.update(sql, password, email);                     
     }
     }

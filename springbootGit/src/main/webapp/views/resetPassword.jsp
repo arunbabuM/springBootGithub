@@ -12,29 +12,29 @@
   <body>
     <div class="center">
       <h2>Reset Password</h2>
-      <form method="post">
-        <div class="txt_field"  id="email">
-          <input type="text" id="emailid" name="emailid" required>
+      <form method="">
+        <div class="txt_field"  id="emailid">
+          <input type="text" id="email" name="emailid" required>
           <span></span>
           <label>Enter Your Email</label>
         </div>
-        <div class="txt_field token d-none" id="token">
-          <input type="token"  required>
+        <div class="txt_field token d-none" id="tokenId">
+          <input type="token"id="token"  required>
           <span></span>
           <label>Verify Token</label>
         </div>
-        <div class="txt_field password1 d-none" id="password1">
-            <input type="password1" required>
+        <div class="txt_field password d-none" id="passwordId">
+            <input type="password" id="password" required>
             <span></span>
             <label>Password</label>
           </div>
-          <div class="txt_field password2 d-none" id="password2">
-            <input type="password2"  required>
+          <div class="txt_field password2 d-none" id="password2Id">
+            <input type="password2" id="password2"  required>
             <span></span>
             <label>Confirm Password</label>
           </div>
         <input type="submit" id="sendotp" value="Send Otp">
-        <input type="submit" class="d-none" id="login" value="Login">
+        <input type="submit" class="d-none" id="resetId" value="Reset">
         <div class="signup_link">
           Not a member? <a href="/register">Signup</a>
         </div>
@@ -45,26 +45,24 @@
     <script>
         document.getElementById('sendotp').addEventListener('click',function(e){
             console.log("Button Clicked");
-            let email_value = document.querySelector('#emailid').value;
-            let email={email: email_value};
-            
-            
+            let email_value = document.querySelector('#email').value;
+            let email={email: email_value};            
         e.preventDefault();
         console.log("register>>>",email)
         
-        $.ajax({                    
+         $.ajax({                    
                     url: '/send-otp',
                     type: 'POST',
                     data: JSON.stringify(email) ,
                     contentType: false,                                        
                     success: function (response) {                                                                   
                         
-            document.getElementById('email').classList.add('d-none');
-            document.getElementById('token').classList.remove('d-none');            
-            document.getElementById('password1').classList.remove('d-none');            
-            document.getElementById('password2').classList.remove('d-none');
-                     
-                      
+            document.getElementById('emailid').classList.add('d-none');
+            document.getElementById('tokenId').classList.remove('d-none');            
+            document.getElementById('passwordId').classList.remove('d-none');            
+            document.getElementById('password2Id').classList.remove('d-none');
+            document.getElementById('sendotp').classList.add('d-none');
+            document.getElementById('resetId').classList.remove('d-none');                                           
                         
                     },
                     error: function (error) {
@@ -73,6 +71,42 @@
                     }
                   })
 
+        })
+
+
+        document.querySelector('#resetId').addEventListener('click',function(e){
+          console.log("Reset Clicked")
+          let f_token = document.getElementById('token').value;
+          let password = document.getElementById('password').value;
+          let password2 = document.getElementById('password2').value;
+
+          let resetObj ={
+            f_token : f_token,
+            password : password,
+            password2 : password2
+          }
+          console.log("resetObj>>",resetObj)
+          e.preventDefault();
+          
+          $.ajax({
+                    url: '/resetPassword',
+                    type: 'POST',
+                    data: JSON.stringify(resetObj) ,
+                    contentType: false,                                        
+                    success: function (response) {                                           
+                        
+                                  
+                            console.log("hiiiiiiiiiiii")
+                            alert("Reset password Successfully");
+                      
+                            location.href = '/login';                                       
+                    },
+                    error: function (error) {
+						        console.log("Error>>>>>>>>");
+                    alert(error.responseText);
+                    }
+
+                })
         })
     </script>
  

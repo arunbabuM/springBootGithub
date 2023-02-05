@@ -9,7 +9,9 @@
 </head>
 <body>
     <h1>Hello</h1>
-    <button type="submit" id="details">View Details</button>
+    <button type="submit" id="details">Profile Info</button>
+    <button type="submit" id="addProduct" onclick="window.location.href='addProduct'">Add Product</button>
+    <button type="submit" id="productDetails">Product List </button>
     <div id="personal"></div>
 <script>
     document.getElementById('details').addEventListener('click',function(){
@@ -23,6 +25,11 @@
         
         `
         document.querySelector("#personal").innerHTML = div;
+    })
+
+    document.querySelector('#addProduct').addEventListener('click',function(){
+      console.log("clicked add product")
+      
     })
  
 
