@@ -11,7 +11,7 @@
     <h1>Hello</h1>
     <button type="submit" id="details">Profile Info</button>
     <button type="submit" id="addProduct" onclick="window.location.href='addProduct'">Add Product</button>
-    <button type="submit" id="productDetails">Product List </button>
+    <button type="submit" id="productDetails" onclick="window.location.href='productList'">Product List </button>
     <div id="personal"></div>
 <script>
     document.getElementById('details').addEventListener('click',function(){

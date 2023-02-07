@@ -1,5 +1,8 @@
 package comspring.springboot.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import comspring.springboot.Dao.dao;
 
 import comspring.springboot.Service.passwordhashService;
+import comspring.springboot.model.products;
 import comspring.springboot.Service.Userservice;
 
 
@@ -69,6 +74,11 @@ public class controller {
     @GetMapping("/addProduct")
     public String addProductView(){
         return "addProduct";
+    }
+
+    @GetMapping("/productList")
+    public String ProductList(){
+        return "productList";
     }
     // @PostMapping(value = "/insertregister")
     // public String register (@RequestBody String data)
@@ -200,6 +210,34 @@ public class controller {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Reset Error");
     }
         
+    @PostMapping("/add-product")
+    public String AddProduct(@ModelAttribute products product ){
+
+       
+        String filePath =  System.getProperty("user.dir") + "/src/main/imagedata";
+        String fullpath = filePath+"/" + "-" + new Date().getTime() + product.getFile().getOriginalFilename(); 
+         File f1 = new File(fullpath);
+         try {
+             product.getFile().transferTo(f1);
+             product.setImage(fullpath);
+             dao.insertProduct(product);
+             System.out.println(product);
+             return "redirect:/crud";
+         } catch (IllegalStateException | IOException e) {
+             // TODO Auto-generated catch block
+             e.printStackTrace();
+             return "error";
+         }
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/allDetails")
+    public List<Map<String, Object>> Alldetails() {
+
+        List<Map<String, Object>> allDetails = dao.allProductdata();
+        System.out.println("Alldata>>" + allDetails);
+        return allDetails;
+    }
     
 }
 

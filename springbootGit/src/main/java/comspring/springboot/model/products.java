@@ -2,37 +2,16 @@ package comspring.springboot.model;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class product {
+public class products {
     private int id;
     private String productName;
     private String productType;
     private String prize;
     private String image;
-
-    
-
-    public product(int id, String productName, String productType, String prize, String image, MultipartFile file) {
-        this.id = id;
-        this.productName = productName;
-        this.productType = productType;
-        this.prize = prize;
-        this.image = image;
-        this.file = file;
-    }
-    @Override
-    public String toString() {
-        return "product [id=" + id + ", productName=" + productName + ", productType=" + productType + ", prize="
-                + prize + ", image=" + image + ", file=" + file + "]";
-    }
     MultipartFile file;
-
     
-
     public int getId() {
         return id;
-    }
-    public void setId(int id) {
-        this.id = id;
     }
     public String getProductName() {
         return productName;
@@ -62,6 +41,18 @@ public class product {
         return file;
     }
     public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+    @Override
+    public String toString() {
+        return "products [productName=" + productName + ", productType=" + productType + ", prize="
+                + prize + ", image=" + image + ", file=" + file + "]";
+    }
+    public products(String productName, String productType, String prize, String image, MultipartFile file) {
+        this.productName = productName;
+        this.productType = productType;
+        this.prize = prize;
+        this.image = image;
         this.file = file;
     }
     

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import comspring.springboot.model.products;
+
 @Repository
 public class dao {
     @Autowired
@@ -83,5 +85,21 @@ public class dao {
         System.out.println("demail>"+email);                 
             String sql = "update users set password =? where email=?";            
             return jdbcTemplate.update(sql, password, email);                     
+    }
+
+    public products insertProduct (products p){
+        System.out.println("Inside");
+        String sql ="insert into product(productName,productType,prize,image) values (?,?,?,?)";
+        System.out.println("jdbc>>>>>>>>>>>>"+jdbcTemplate);
+        jdbcTemplate.update(sql,p.getProductName(),p.getProductType(),Double.parseDouble(p.getPrize()),p.getImage());
+        return p;
+    }
+
+    
+    public List<Map<String, Object>> allProductdata() {
+
+        String sql = "select * from product";
+        List<Map<String, Object>> allDetails = jdbcTemplate.queryForList(sql);
+        return allDetails;
     }
     }

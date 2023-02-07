@@ -47,15 +47,17 @@
 
 <body>
     <div class="center">
-        <h1>Add New Product</h1>
-        <div class="textDiv">
+        <form enctype='multipart/form-data' method="POST" action="/add-product" id="product-form">
+
+            <h1>Add New Product</h1>
+            <div class="textDiv">
             <div class="pName">
                 <label>Product Name :-</label>
-                <input type="text" id="productName">
+                <input type="text" name="productName" id="productName">
             </div><br>
             <div class="pType">
                 <label>Product Type :-</label>
-                <select type="text" id="productName">
+                <select type="text" id="productName" name="productType">
                     <option value="">-Select-</option>
                     <option value="Clothing">Clothing</option>
                     <option value="Mobiles">Mobiles</option>
@@ -67,18 +69,28 @@
             </div><br>
             <div class="pValue">
                 <label>Product Prize :-</label>
-                <input type="text" id="productName">
+                <input type="text" id="productPrize" name="prize">
             </div><br>
             <div class="pImage">
                 <label>Image :-</label>
-                <input type="file" id="productName">
+                <input type="file" id="productImage" name="file">
             </div><br>
             <div class="submit" >
                 <input type="submit" class="submit" id="submit" value="Submit">
             </div>
         </div>
+    </form>
     </div>
 
+    <script>
+        // document.getElementById('product-form').addEventListener('submit',function(e) {
+        //     e.preventDefault();
+        //     console.log(e.target);
+
+        //     const formData = new FormData(e.target);
+
+        // })
+    </script>
 </body>
 
 </html>
