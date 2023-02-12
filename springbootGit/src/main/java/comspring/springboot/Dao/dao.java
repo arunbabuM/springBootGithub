@@ -102,4 +102,62 @@ public class dao {
         List<Map<String, Object>> allDetails = jdbcTemplate.queryForList(sql);
         return allDetails;
     }
+
+    
+    public List<Map<String, Object>> getAllType() {
+
+        String sql = "select productType from product";
+        List<Map<String, Object>> getAllType = jdbcTemplate.queryForList(sql);
+        return getAllType;
+    }
+
+    public List<Map<String, Object>> filter(String filterType) {
+
+        String sql = "select * from product where productType=?";
+        List<Map<String, Object>> filter = jdbcTemplate.queryForList(sql,filterType);
+        return filter;
+    }
+
+        // Active & Deactive
+        public int setDeactive(int id) {
+            System.out.println("id>>>"+id);
+            String sql = "update product set active ='false' where id=?";
+            int setDeactive = jdbcTemplate.update(sql, id);
+            return setDeactive;
+        }
+    
+        public int setActive(int id) {
+            System.out.println("id>>>"+id);
+            String sql = "update product set active ='true' where id=?";
+            int setActive = jdbcTemplate.update(sql, id);
+            return setActive;
+        }
+
+            // Active & Deactive
+    public int setDeactive1(int id) {
+       String sql = "update product set active ='false' where id=?";
+        int setDeactive = jdbcTemplate.update(sql, id);
+        return setDeactive;
+    }
+
+    public int setActive1(int id) {
+       String sql = "update product set active ='true' where id=?";
+        int setActive = jdbcTemplate.update(sql, id);
+        return setActive;
+    }
+
+    public int editData(int id) {
+        System.out.println("id>>>"+id);
+        String sql = "update product set productName=?,productType=?,prize=?,image=? where id=?";        
+        int editProduct = jdbcTemplate.update(sql, id);
+        return editProduct;
+    }
+
+    public List<Map<String, Object>> vieweditdata(String id) {
+
+        String sql = "select * from product where id=?";
+        List<Map<String, Object>> filter = jdbcTemplate.queryForList(sql,id);
+        return filter;
+    }
+
     }

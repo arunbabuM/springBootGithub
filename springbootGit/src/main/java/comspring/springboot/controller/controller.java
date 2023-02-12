@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import comspring.springboot.Dao.dao;
@@ -232,13 +233,81 @@ public class controller {
 
     @ResponseBody
     @GetMapping(value = "/allDetails")
-    public List<Map<String, Object>> Alldetails() {
-
+    public List<Map<String, Object>> Alldetails(@RequestParam(required = false) String filter) {
+        System.out.println("filter>"+filter);
         List<Map<String, Object>> allDetails = dao.allProductdata();
-        System.out.println("Alldata>>" + allDetails);
+
+        if(filter == null)
+        {
+            System.out.println("Alldata>>" + allDetails);
+            allDetails = dao.allProductdata();
+        }
+        else{           
+            allDetails = dao.filter(filter);
+        }
+       
+        
         return allDetails;
     }
+
+    @ResponseBody
+    @GetMapping(value = "/getAllType")
+    public List<Map<String, Object>> getAllType() {
+
+        List<Map<String, Object>> getAllType = dao.getAllType();
+        System.out.println("Alldata>>" + getAllType);
+        return getAllType;
+    }
+
+     // Active & Deactive
+    //  @ResponseBody
+    //  @PostMapping(value = "/setDeactive")
+    //  public String setDeactive(@RequestParam(required = false) int id) {
+    //      System.out.println("id1 : " + id);
+    //      dao.setDeactive(id);
+    //      return "Success";
+    //  }
+ 
+    //  @ResponseBody
+    //  @PostMapping(value = "/setActive")
+    //  public String setActive(@RequestParam int id) {
+    //     System.out.println("id2 : " + id);
+    //      dao.setActive(id);
+    //      return "Success";
+    //  }
+
+         // Active & Deactive
+    @ResponseBody
+    @PostMapping(value = "/setDeactive")
+    public String setDeactive1(@RequestBody int id) {
+        System.out.println("Email : " + id);
+        dao.setDeactive1(id);
+        return "Success";
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/setActive")
+    public String setActive2(@RequestBody int id) {
+        dao.setActive1(id);
+        return "Success";
+    }
+
     
+    @ResponseBody
+    @GetMapping(value = "/viewEdit")
+    public List<Map<String, Object>> viewEdit(@RequestBody String id) {
+
+        List<Map<String, Object>> viewEdit = dao.vieweditdata(id);
+        System.out.println("Alldata>>" + viewEdit);
+        return viewEdit;
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/updateProduct")
+     public String updateProduct(@RequestBody int data){
+        dao.editData(data);
+        return "Success";
+     }
 }
 
 

@@ -83,13 +83,7 @@
     </div>
 
     <script>
-        // document.getElementById('product-form').addEventListener('submit',function(e) {
-        //     e.preventDefault();
-        //     console.log(e.target);
-
-        //     const formData = new FormData(e.target);
-
-        // })
+  
     </script>
 </body>
 
