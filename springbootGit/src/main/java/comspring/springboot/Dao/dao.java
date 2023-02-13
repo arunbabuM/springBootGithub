@@ -148,12 +148,12 @@ public class dao {
 
     public int editData(int id) {
         System.out.println("id>>>"+id);
-        String sql = "update product set productName=?,productType=?,prize=?,image=? where id=?";        
+        String sql = "update product set productName=?,productType=?,prize=? where id=?";        
         int editProduct = jdbcTemplate.update(sql, id);
         return editProduct;
     }
 
-    public List<Map<String, Object>> vieweditdata(String id) {
+    public List<Map<String, Object>> vieweditdata(int id) {
 
         String sql = "select * from product where id=?";
         List<Map<String, Object>> filter = jdbcTemplate.queryForList(sql,id);

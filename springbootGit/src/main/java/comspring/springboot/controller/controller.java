@@ -295,7 +295,7 @@ public class controller {
     
     @ResponseBody
     @GetMapping(value = "/viewEdit")
-    public List<Map<String, Object>> viewEdit(@RequestBody String id) {
+    public List<Map<String, Object>> viewEdit(@RequestParam(required = false) int id) {
 
         List<Map<String, Object>> viewEdit = dao.vieweditdata(id);
         System.out.println("Alldata>>" + viewEdit);

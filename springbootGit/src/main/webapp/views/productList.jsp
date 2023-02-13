@@ -79,17 +79,8 @@
         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <label>Product Name :-</label>
-        <input type="text" name="productType" id="productType"><br>
-        <label>Product Type :-</label>
-        <input type="text" name="productName" id="productName"><br>
-        <label>Product Prize :-</label>
-        <input type="text" name="productPrize" id="productPrize">
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+      <div class="modal-body" id="editId">
+        
     </div>
   </div>
 </div>
@@ -116,13 +107,13 @@
         <td>\${info.image}</td>
         `
         if(info.active == true){
-         div+=   `<td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+         div+=   `<td><button type="button" data-id = "\${info.id}" class="edit btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
   Edit
 </button> <button data-id = "\${info.id}" class="Deactiveuser btn btn-danger">D</button></td>
          `
          
             }else{
-                div+=`<td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                div+=`<td><button type="button" data-id = "\${info.id}" class="edit btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
   Edit
 </button> <button  class='activeuser btn btn-success' data-id = "\${info.id}" class="activeuser">A</button></td>`
 
@@ -135,6 +126,35 @@
 
     document.querySelector("#productData").innerHTML = div;
     }
+
+
+    $(".edit").click(function() {
+    var id = $(this).data('id') // $(this) refers to button that was clicked
+    console.log(id);
+    let edit = ajaxGet("/viewEdit?id="+id);
+    console.log("editData",edit);
+    let div =``
+    
+    for(let info of edit) {
+    div +=`
+    <label>Product Name :-</label>
+        <input type="text" value=\${info.productname} name="productType" id="productType"><br>
+        <label>Product Type :-</label>
+        <input type="text" value=\${info.producttype}  name="productName" id="productName"><br>
+        <label>Product Prize :-</label>
+        <input type="text" value=\${info.prize} name="productPrize" id="productPrize">
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="editSubmit" class="editSubmit btn btn-primary">Save changes</button>
+      </div>
+    `}
+    document.querySelector("#editId").innerHTML = div;    
+}); 
+
+$("#editSubmit").click(function() {
+  console.log("editSubmit");
+})
+
 
 
 let type = ajaxGet("/getAllType");
@@ -177,10 +197,6 @@ let type = ajaxGet("/getAllType");
          }             
         div += `</tr>
         `   
-
-               
-    
-
     document.querySelector("#productData").innerHTML = div;
 
     }
