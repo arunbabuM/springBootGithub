@@ -49,6 +49,7 @@
       </select>
   </div>
 </div>
+<input type="button" value="Go back!" onclick="history.back()">
 
 <table id="products">
   <tr>
@@ -89,13 +90,9 @@
   $('#myModal').on('shown.bs.modal', function () {
   $('#myInput').trigger('focus')
 })
-    
-
     let data = ajaxGet('/allDetails');
     console.log("DataFront>>",data)
     let div = ``;
-    
-
     for(let info of data){
     
     div += `
@@ -138,23 +135,41 @@
     for(let info of edit) {
     div +=`
     <label>Product Name :-</label>
-        <input type="text" value=\${info.productname} name="productType" id="productType"><br>
+        <input type="text" value=\${info.productname} name="productName" id="productName"><br>
         <label>Product Type :-</label>
-        <input type="text" value=\${info.producttype}  name="productName" id="productName"><br>
+        <input type="text" value=\${info.producttype}  name="productType" id="productType"><br>
         <label>Product Prize :-</label>
         <input type="text" value=\${info.prize} name="productPrize" id="productPrize">
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" id="editSubmit" class="editSubmit btn btn-primary">Save changes</button>
+        <button type="button" data-id="\${info.id}" id="editSubmit" class="editSubmit btn btn-primary">Save changes</button>
       </div>
     `}
-    document.querySelector("#editId").innerHTML = div;    
+    document.querySelector("#editId").innerHTML = div;  
+  
+    $("#editSubmit").click(function() {
+      console.log("Clicked edit button")
+        var id = $(this).data('id') // $(this) refers to button that was clicked
+        console.log(id);     
+        let productType = document.querySelector('#productType').value;
+        let productName = document.querySelector('#productName').value;
+        let productPrize = document.querySelector('#productPrize').value;
+        let obj ={
+          productType : productType,
+          productName : productName,
+          productPrize : productPrize
+        }  
+        let editObj =  JSON.stringify(obj);
+        let editAction = ajaxPost("/updateProduct",editObj);
+    });
+
+    //     $(".activeuser").click(function() {
+//         var id = $(this).data('id') // $(this) refers to button that was clicked
+//         console.log(id);
+//         let action = ajaxPost("\setActive",id);
+//     });
+
 }); 
-
-$("#editSubmit").click(function() {
-  console.log("editSubmit");
-})
-
 
 
 let type = ajaxGet("/getAllType");
@@ -217,36 +232,36 @@ $(".activeuser").click(function() {
 });
   })
 
-//   $(".Deactiveuser").click(function() {
-//     var id = $(this).data('id') // $(this) refers to button that was clicked
-//     console.log(id);
-//     let action = ajaxPost("\setDeactive?id="+id);
-//     console.log(id);   
-//   console.log("okk");
-// }); 
+  $(".Deactiveuser").click(function() {
+    var id = $(this).data('id') // $(this) refers to button that was clicked
+    console.log(id);
+    let action = ajaxPost("\setDeactive?id="+id);
+    console.log(id);   
+  console.log("okk");
+}); 
 
-// $(".activeuser").click(function() {
-//     var id = $(this).data('id') // $(this) refers to button that was clicked
-//     console.log(id);
-//     let action = ajaxPost("\setActive?id="+id);
-//     console.log(id);
-//     console.log("okk2");
-// });
+$(".activeuser").click(function() {
+    var id = $(this).data('id') // $(this) refers to button that was clicked
+    console.log(id);
+    let action = ajaxPost("\setActive?id="+id);
+    console.log(id);
+    console.log("okk2");
+});
 
-$(".Deactiveuser").click(function() { 
-        var id = $(this).data('id') // $(this) refers to button that was clicked
-        console.log(id);
-        let action = ajaxPost("\setDeactive",id);       
+// $(".Deactiveuser").click(function() { 
+//         var id = $(this).data('id') // $(this) refers to button that was clicked
+//         console.log(id);
+//         let action = ajaxPost("\setDeactive",id);       
         
 
-    });
+//     });
     
 
-    $(".activeuser").click(function() {
-        var id = $(this).data('id') // $(this) refers to button that was clicked
-        console.log(id);
-        let action = ajaxPost("\setActive",id);
-    });
+//     $(".activeuser").click(function() {
+//         var id = $(this).data('id') // $(this) refers to button that was clicked
+//         console.log(id);
+//         let action = ajaxPost("\setActive",id);
+//     });
 
 
 function ajaxGet(URL){

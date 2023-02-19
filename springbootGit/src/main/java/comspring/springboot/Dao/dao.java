@@ -86,6 +86,18 @@ public class dao {
             String sql = "update users set password =? where email=?";            
             return jdbcTemplate.update(sql, password, email);                     
     }
+    public int editData(String data) {
+        System.out.println("id>>>"+data);
+        int id= (int) httpSession.getAttribute("id");
+        JSONObject json = new JSONObject(data);
+        String productName = json.getString("productName");
+        String productType = json.getString("productType");
+        String prize = json.getString("productPrize");
+
+        String sql = "update product set productName=?,productType=?,prize=? where id=?";        
+        int editProduct = jdbcTemplate.update(sql,productName,productType,Double.parseDouble(prize),id);
+        return editProduct;
+    }
 
     public products insertProduct (products p){
         System.out.println("Inside");
@@ -146,12 +158,7 @@ public class dao {
         return setActive;
     }
 
-    public int editData(int id) {
-        System.out.println("id>>>"+id);
-        String sql = "update product set productName=?,productType=?,prize=? where id=?";        
-        int editProduct = jdbcTemplate.update(sql, id);
-        return editProduct;
-    }
+
 
     public List<Map<String, Object>> vieweditdata(int id) {
 

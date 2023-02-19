@@ -1,5 +1,6 @@
 package comspring.springboot.controller;
 
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -204,12 +205,22 @@ public class controller {
             if(Integer.parseInt(f_token)==(otpFromSession)){
                 dao.resetEmailPassword(data);
             return ResponseEntity.ok("Password reset successfully");
-            }
-            
-        }
-              
+            }            
+        }              
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Reset Error");
     }
+    
+    @ResponseBody
+    @PostMapping(value = "/updateProduct")
+     public String updateProduct(@RequestBody String data){
+        // dao.editData(data);
+        int id= (int) httpSession.getAttribute("id");
+      
+        System.out.println("idToUpdate :"+id);
+        System.out.println("editdata"+data);
+        dao.editData(data);
+        return "Success";
+     }
         
     @PostMapping("/add-product")
     public String AddProduct(@ModelAttribute products product ){
@@ -259,38 +270,38 @@ public class controller {
         return getAllType;
     }
 
-     // Active & Deactive
-    //  @ResponseBody
-    //  @PostMapping(value = "/setDeactive")
-    //  public String setDeactive(@RequestParam(required = false) int id) {
-    //      System.out.println("id1 : " + id);
-    //      dao.setDeactive(id);
-    //      return "Success";
-    //  }
+    //  Active & Deactive
+     @ResponseBody
+     @PostMapping(value = "/setDeactive")
+     public String setDeactive(@RequestParam(required = false) int id) {
+         System.out.println("id1 : " + id);
+         dao.setDeactive(id);
+         return "Success";
+     }
  
-    //  @ResponseBody
-    //  @PostMapping(value = "/setActive")
-    //  public String setActive(@RequestParam int id) {
-    //     System.out.println("id2 : " + id);
-    //      dao.setActive(id);
-    //      return "Success";
-    //  }
+     @ResponseBody
+     @PostMapping(value = "/setActive")
+     public String setActive(@RequestParam int id) {
+        System.out.println("id2 : " + id);
+         dao.setActive(id);
+         return "Success";
+     }
 
          // Active & Deactive
-    @ResponseBody
-    @PostMapping(value = "/setDeactive")
-    public String setDeactive1(@RequestBody int id) {
-        System.out.println("Email : " + id);
-        dao.setDeactive1(id);
-        return "Success";
-    }
+    // @ResponseBody
+    // @PostMapping(value = "/setDeactive")
+    // public String setDeactive1(@RequestBody int id) {
+    //     System.out.println("Email : " + id);
+    //     dao.setDeactive1(id);
+    //     return "Success";
+    // }
 
-    @ResponseBody
-    @PostMapping(value = "/setActive")
-    public String setActive2(@RequestBody int id) {
-        dao.setActive1(id);
-        return "Success";
-    }
+    // @ResponseBody
+    // @PostMapping(value = "/setActive")
+    // public String setActive2(@RequestBody int id) {
+    //     dao.setActive1(id);
+    //     return "Success";
+    // }
 
     
     @ResponseBody
@@ -298,16 +309,10 @@ public class controller {
     public List<Map<String, Object>> viewEdit(@RequestParam(required = false) int id) {
 
         List<Map<String, Object>> viewEdit = dao.vieweditdata(id);
+        httpSession.setAttribute("id", id);
         System.out.println("Alldata>>" + viewEdit);
         return viewEdit;
     }
-
-    @ResponseBody
-    @PostMapping(value = "/updateProduct")
-     public String updateProduct(@RequestBody int data){
-        dao.editData(data);
-        return "Success";
-     }
 }
 
 
