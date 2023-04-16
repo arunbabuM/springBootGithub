@@ -313,6 +313,17 @@ public class controller {
         System.out.println("Alldata>>" + viewEdit);
         return viewEdit;
     }
+
+    
+    @GetMapping("/mainDash")
+    public String mainDashboard(){
+        return"mainDash";
+    }
+
+    @GetMapping("/header")
+    public String header(){
+        return "header";
+    }
 }
 
 

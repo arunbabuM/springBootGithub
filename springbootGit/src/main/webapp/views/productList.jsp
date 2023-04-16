@@ -41,7 +41,7 @@
 <h1>Product List</h1>
 
 <div class="row">
-  <div class="col-md-4 " id="type_select">
+  <div class="col-md-4 mx-3" id="type_select">
       <h5>Select Product Type</h5>
           <hr />
       <select class="type_select mb-3" id="product_type">
@@ -49,8 +49,9 @@
       </select>
   </div>
 </div>
-<input type="button" value="Go back!" onclick="history.back()">
 
+<div class="mx-3">
+  <input type="button" value="Go back!" onclick="history.back()">
 <table id="products">
   <tr>
     <th>Product Id</th>
@@ -65,25 +66,21 @@
 
   </tbody>
   </table>
-
-
-  <!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Edit
-</button> -->
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edit Details</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="editId">
         
     </div>
   </div>
+</div>
 </div>
 
 <script>
@@ -163,12 +160,6 @@
         let editAction = ajaxPost("/updateProduct",editObj);
     });
 
-    //     $(".activeuser").click(function() {
-//         var id = $(this).data('id') // $(this) refers to button that was clicked
-//         console.log(id);
-//         let action = ajaxPost("\setActive",id);
-//     });
-
 }); 
 
 
@@ -204,10 +195,17 @@ let type = ajaxGet("/getAllType");
         <td>\${info.image}</td>
         `
         if(info.active == true){
-         div+=   `<td> <button data-id = "\${info.id}" class="Deactiveuser btn btn-danger">D</button></td>`
+         div+=   `<td> <button data-id = "\${info.id}" class="Deactiveuser btn btn-danger">D</button>
+          <button type="button" data-id = "\${info.id}" class="edit btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Edit
+</button></td>
+         `
          
             }else{
-                div+=`<td> <button  class='activeuser btn btn-success' data-id = "\${info.id}" class="activeuser">A</button></td>`
+                div+=`<td> <button  class='activeuser btn btn-success' data-id = "\${info.id}" class="activeuser">A</button>
+                  <button type="button" data-id = "\${info.id}" class="edit btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Edit
+</button></td>`
 
          }             
         div += `</tr>
@@ -215,21 +213,7 @@ let type = ajaxGet("/getAllType");
     document.querySelector("#productData").innerHTML = div;
 
     }
-    $(".Deactiveuser").click(function() {
-    var id = $(this).data('id') // $(this) refers to button that was clicked
-    console.log(id);
-    let action = ajaxPost("\setDeactive?id="+id);
-    console.log(id);   
-  console.log("okk");
-}); 
-
-$(".activeuser").click(function() {
-    var id = $(this).data('id') // $(this) refers to button that was clicked
-    console.log(id);
-    let action = ajaxPost("\setActive?id="+id);
-    console.log(id);
-    console.log("okk2");
-});
+    
   })
 
   $(".Deactiveuser").click(function() {
